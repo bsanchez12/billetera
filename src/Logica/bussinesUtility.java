@@ -7,6 +7,7 @@ package Logica;
 
 
 import AccesoDatos.DAOImpl.cuentasDAOImpl;
+import Helpers.sqliteHelper;
 import Logica.VO.cuentasVO;
 import java.util.ArrayList;
 
@@ -18,14 +19,20 @@ public class bussinesUtility {
     
     public ArrayList<cuentasVO> resumenCuentas(){
       ArrayList<cuentasVO> cuentas=new ArrayList();
-        try {
+      try {
             cuentasDAOImpl cuentasList = new cuentasDAOImpl();
             cuentas = cuentasList.getAllCuentas();
-        } catch (Exception e) {
-        }
+      }catch (Exception e) {
+            
+       }
       
       
       return cuentas;
+    }
+    
+    public void connectDB(){
+        sqliteHelper sql = new sqliteHelper();
+        sql.connect();
     }
     
     

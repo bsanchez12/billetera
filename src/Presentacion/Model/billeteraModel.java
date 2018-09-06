@@ -37,4 +37,8 @@ public class billeteraModel {
         getVentanaPrincipal().setVisible(true);
     }
     
+    public void connectDB()
+    {
+        sistema.connectDB();
+    }
 }

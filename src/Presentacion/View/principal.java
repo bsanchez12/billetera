@@ -23,6 +23,17 @@ public class principal extends javax.swing.JFrame {
         initComponents();
     }
 
+    public billeteraModel getModelo() {
+        return modelo;
+    }
+
+    public principlaController getControl() {
+         if(control == null){
+            control = new principlaController(this);
+        }
+        return control;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
