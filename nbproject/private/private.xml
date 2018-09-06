@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/Billetera/src/Presentacion/Model/billeteraModel.java</file>
-            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/Billetera/src/Presentacion/Controller/principlaController.java</file>
-            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/Billetera/src/Logica/bussinesUtility.java</file>
-            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/Billetera/src/Logica/VO/cuentasVO.java</file>
-            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/Billetera/src/AccesoDatos/DAOImpl/personasDAOImpl.java</file>
-            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/Billetera/src/AccesoDatos/DAO/ImovimientosDAO.java</file>
-            <file>file:/C:/Users/Estudiantes/Documents/NetBeansProjects/Billetera/src/Presentacion/View/principal.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
