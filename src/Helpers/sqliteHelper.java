@@ -15,24 +15,27 @@ import java.sql.SQLException;
  */
 public class sqliteHelper {
     
-    public void connect(){
-     Connection conn = null;
+    public Connection connect(){
+      // SQLite connection string
+        String url = "jdbc:sqlite:C://sqlite/billetera.db";
+        Connection conn = null;
         try {
-           String url = "jdbc:sqlite:C:/sqlite/billetera.db";
-           // create a connection to the database
-           conn = DriverManager.getConnection(url);     
-           System.out.println("Connection to SQLite has been established.");
+            conn = DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return conn;
+    }
+    
+    public void closeConnection(Connection conn)
+    {  
+        try {
+            if(conn != null) {
+                conn.close();
+            }
         }catch (SQLException e) {
             System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
+        } 
     }
 }
     

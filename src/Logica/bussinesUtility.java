@@ -7,8 +7,9 @@ package Logica;
 
 
 import AccesoDatos.DAOImpl.cuentasDAOImpl;
-import Helpers.sqliteHelper;
+import AccesoDatos.DAOImpl.movimientoDAOImpl;
 import Logica.VO.cuentasVO;
+import Logica.VO.movimientosVO;
 import java.util.ArrayList;
 
 /**
@@ -24,16 +25,21 @@ public class bussinesUtility {
             cuentas = cuentasList.getAllCuentas();
       }catch (Exception e) {
             
-       }
-      
-      
+      }
       return cuentas;
     }
     
-    public void connectDB(){
-        sqliteHelper sql = new sqliteHelper();
-        sql.connect();
+    public ArrayList<movimientosVO> resumenTipoMovimiento(int idTipoMovimiento){
+       ArrayList<movimientosVO> movimientoByTipo = new ArrayList();
+       
+       try{
+          movimientoDAOImpl movimientoList = new movimientoDAOImpl();
+          movimientoByTipo = movimientoList.getMovimientoByidTipoMov(idTipoMovimiento);
+       }catch (Exception e) {
+          System.out.println(e.getMessage()); 
+       }
+       
+       return movimientoByTipo;
     }
-    
-    
+ 
 }

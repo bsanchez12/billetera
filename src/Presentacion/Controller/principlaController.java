@@ -23,7 +23,7 @@ public class principlaController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ventana.getModelo().connectDB();
+        //TO-DO
     }
     
 }
