@@ -6,8 +6,10 @@
 package Logica;
 
 
+import AccesoDatos.DAOImpl.categoriasDAOImpl;
 import AccesoDatos.DAOImpl.cuentasDAOImpl;
 import AccesoDatos.DAOImpl.movimientoDAOImpl;
+import Logica.VO.categoriasVO;
 import Logica.VO.cuentasVO;
 import Logica.VO.movimientosVO;
 import java.util.ArrayList;
@@ -41,5 +43,28 @@ public class bussinesUtility {
        
        return movimientoByTipo;
     }
+    
+    public int insertarMovimiento(movimientosVO movimiento){
+       int result = 0;
+        
+       try{
+          movimientoDAOImpl movimientoList = new movimientoDAOImpl();
+          result = movimientoList.insertMovimiento(movimiento);
+       }catch (Exception e) {
+          System.out.println(e.getMessage()); 
+       }
+       
+       return result;
+    }
  
+    public ArrayList<categoriasVO> getCategoriasByTipo(int tipoCategoria){
+        ArrayList<categoriasVO> result = new ArrayList<>();
+         try{
+          categoriasDAOImpl categoriaList = new categoriasDAOImpl();
+          result = categoriaList.getCategoriaByTipo(tipoCategoria);
+       }catch (Exception e) {
+          System.out.println(e.getMessage()); 
+       }
+        return result;
+    }
 }

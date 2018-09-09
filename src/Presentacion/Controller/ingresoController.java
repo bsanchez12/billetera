@@ -20,9 +20,10 @@ public class ingresoController implements ActionListener{
     public ingresoController(ingreso aThis) {
        ventana = aThis;
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        ventana.getModelo().FuncionalidadListarIngresos(1);
+        System.out.println(e);
+        ventana.getModelo().abrirVentanaAgregarIngreso();
     }
 }

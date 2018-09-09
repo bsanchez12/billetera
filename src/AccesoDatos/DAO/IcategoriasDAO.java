@@ -18,5 +18,5 @@ public interface IcategoriasDAO {
     public categoriasVO getCategoria (int idCategoria) throws Exception;
     public ArrayList<categoriasVO> getAllCategorias() throws Exception;
     public int deleteCategoria(int idCategoria)throws Exception;
-    
+    public ArrayList<categoriasVO> getCategoriaByTipo (int tipoCategoria) throws Exception;
 }

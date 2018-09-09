@@ -12,6 +12,7 @@ import Logica.VO.cuentasVO;
 import Logica.VO.movimientosVO;
 import Logica.VO.personasVO;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,7 +30,25 @@ public class movimientoDAOImpl implements ImovimientosDAO{
 
     @Override
     public int insertMovimiento(movimientosVO movimiento) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "INSERT INTO movimiento(fecha,valor,detalle,id_cuenta,id_categoria,id_tipo_movimiento) VALUES(?,?)";
+        sqliteHelper sqlite = new sqliteHelper();
+        int result = 0;
+        cuentasVO cuenta = movimiento.getCuentas();
+        categoriasVO categoria = movimiento.getCategoria();
+        try (Connection conn = sqlite.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDate(1, (java.sql.Date) movimiento.getFecha());
+            pstmt.setDouble(2, movimiento.getValor());
+            pstmt.setString(2, movimiento.getDetalle());
+            pstmt.setInt(2, cuenta.getIdCuenta());
+            pstmt.setInt(2, categoria.getIdCategoria());
+            pstmt.setInt(2, movimiento.getTipoMovimiento());
+            pstmt.executeUpdate();
+            result = 1;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
     }
 
     @Override
@@ -65,7 +84,7 @@ public class movimientoDAOImpl implements ImovimientosDAO{
                 result.add(movement);
             }
         } catch (SQLException e) {
-            System.out.println("ERROR BD- " + e.getMessage());
+            System.out.println("ERROR BD - " + e.getMessage());
         } 
         return result;        
     }

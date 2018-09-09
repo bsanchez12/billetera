@@ -6,8 +6,20 @@
 package AccesoDatos.DAOImpl;
 
 import AccesoDatos.DAO.IcategoriasDAO;
+import Helpers.sqliteHelper;
 import Logica.VO.categoriasVO;
+import Logica.VO.cuentasVO;
+import Logica.VO.movimientosVO;
+import Logica.VO.personasVO;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  *
@@ -33,6 +45,27 @@ public class categoriasDAOImpl implements IcategoriasDAO {
     @Override
     public int deleteCategoria(int idCategoria) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<categoriasVO> getCategoriaByTipo(int tipoCategoria) throws Exception {
+        String sql = "SELECT id_categoria, descripcion FROM categoria WHERE id_tipo_categoria = " + String.valueOf(tipoCategoria);             
+        sqliteHelper sqlite = new sqliteHelper();
+        ArrayList<categoriasVO> result = new ArrayList<>();
+        categoriasVO categoria = new categoriasVO();
+        try (Connection conn = sqlite.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+            
+            // loop through the result set
+            while (rs.next()) {                                  
+                categoria = new categoriasVO(rs.getInt("id_categoria"), rs.getString("descripcion"), tipoCategoria);               
+                result.add(categoria);
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR BD - " + e.getMessage());
+        } 
+        return result;    
     }
     
 }

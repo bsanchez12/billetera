@@ -41,13 +41,14 @@ public class ingreso extends javax.swing.JFrame {
     public ingreso(billeteraModel b) {
         modelo = b;
         initComponents();
+        capturarEventos();
     }
     
     public billeteraModel getModelo() {
         return modelo;
     }
     
-      public ingresoController getControl() {
+    public ingresoController getControl() {
          if(control == null){
             control = new ingresoController(this);
         }
@@ -66,9 +67,9 @@ public class ingreso extends javax.swing.JFrame {
         lblIngresoTitulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstIngresos = new javax.swing.JList<>();
-        btnAgregar = new javax.swing.JButton();
         lblFechaActual = new javax.swing.JLabel();
         lblError = new javax.swing.JLabel();
+        btnagregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,12 +79,7 @@ public class ingreso extends javax.swing.JFrame {
         jScrollPane1.setViewportView(lstIngresos);
         lstIngresos.getAccessibleContext().setAccessibleName("lstIngresos");
 
-        btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarPerformed(evt);
-            }
-        });
+        btnagregar.setText("Agregar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,7 +94,7 @@ public class ingreso extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(lblIngresoTitulo)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAgregar))
+                            .addComponent(btnagregar))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
@@ -106,37 +102,40 @@ public class ingreso extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblIngresoTitulo)
-                    .addComponent(btnAgregar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblFechaActual)
-                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblIngresoTitulo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblFechaActual)
+                        .addGap(23, 23, 23))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnagregar)
+                        .addGap(18, 18, 18)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(lblError)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         lblIngresoTitulo.getAccessibleContext().setAccessibleName("lblIngresoTitulo");
-        btnAgregar.getAccessibleContext().setAccessibleName("btnAgregar");
         lblFechaActual.getAccessibleContext().setAccessibleName("lblFechaActual");
         lblError.getAccessibleContext().setAccessibleName("lblError");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgregarPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAgregarPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnagregar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblFechaActual;
     private javax.swing.JLabel lblIngresoTitulo;
     private javax.swing.JList<String> lstIngresos;
     // End of variables declaration//GEN-END:variables
+
+    private void capturarEventos() {
+      btnagregar.addActionListener(getControl());
+    }
+
 }
