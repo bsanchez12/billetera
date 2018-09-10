@@ -98,17 +98,25 @@ public class billeteraModel {
     public void abrirVentanaAgregarIngreso(){
        getVentanaAgregarIngreso().setSize(400, 400);
        getVentanaAgregarIngreso().setVisible(true);
-       FuncionalidadTraerCategoriasByTipo(1);
+       FuncionalidadCargarDataInicial(1);
     }
     
-    public void FuncionalidadTraerCategoriasByTipo(int tipoCategoria){
+    public void FuncionalidadCargarDataInicial(int tipoCategoria){
         boolean error = false;
-        try{            
-           ArrayList<categoriasVO> movimientos = getSistema().getCategoriasByTipo(tipoCategoria);           
-           DefaultComboBoxModel listModel = new DefaultComboBoxModel ();
-           categoriasVO categoria = new categoriasVO();
+        try{   
            Date fecha = new Date();
            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+           //cargue de informacion de cuentas
+           ArrayList<cuentasVO> cuentas = getSistema().getCuentas();  
+           DefaultComboBoxModel listModelCuenta = new DefaultComboBoxModel ();                     
+           for(Iterator<cuentasVO> i = cuentas.iterator(); i.hasNext();){
+               cuentasVO item = i.next();  
+               listModelCuenta.addElement(String.valueOf(item.getIdCuenta()) + " - " + item.getNombreCuenta());
+           }
+           getVentanaAgregarIngreso().getDdlcuenta().setModel(listModelCuenta);
+           //cargue de informacion de categorias
+           ArrayList<categoriasVO> movimientos = getSistema().getCategoriasByTipo(tipoCategoria);           
+           DefaultComboBoxModel listModel = new DefaultComboBoxModel ();                     
            for(Iterator<categoriasVO> i = movimientos.iterator(); i.hasNext();){
                categoriasVO item = i.next();  
                listModel.addElement(String.valueOf(item.getIdCategoria()) + " - " + item.getDesCategoria());
@@ -129,14 +137,19 @@ public class billeteraModel {
         try{
            movimientosVO movimiento = new movimientosVO();
            cuentasVO cuenta = new cuentasVO();
-           System.out.println(getVentanaAgregarIngreso().getDdlcategoria().getSelectedItem());
-           cuenta.setIdCuenta(0);
+           categoriasVO categoria = new categoriasVO();
+           String categoriaSelected = (String) getVentanaAgregarIngreso().getDdlcategoria().getSelectedItem().toString().split("-")[0].trim();                                
+           String cuentaSelected = (String) getVentanaAgregarIngreso().getDdlcuenta().getSelectedItem().toString().split("-")[0].trim();                                
+           cuenta.setIdCuenta(Integer.parseInt(cuentaSelected));
+           categoria.setIdCategoria(Integer.parseInt(categoriaSelected));
            detalle = getVentanaAgregarIngreso().getjTextArea1().getText();
            valor = Double.parseDouble(getVentanaAgregarIngreso().getTxtvalor().getText());
            movimiento.setDetalle(detalle);
            movimiento.setFecha(fecha);
+           movimiento.setCategoria(categoria);
+           movimiento.setCuentas(cuenta);
            movimiento.setTipoMovimiento(1);
-           //getSistema().insertarMovimiento(movimiento);
+           getSistema().insertarMovimiento(movimiento);
         }catch(NumberFormatException e){
             error = true;
         }

@@ -21,11 +21,12 @@ public class cuentasVO {
     
     }
     
-    public cuentasVO (int idCuenta,String nombreCuenta,personasVO persona)
+    public cuentasVO (int idCuenta,String nombreCuenta,personasVO persona,double saldo)
     {
         this.idCuenta=idCuenta;
         this.nombreCuenta=nombreCuenta;
         this.persona=persona;
+        this.saldo=saldo;
     }
     
     public int getIdCuenta() {

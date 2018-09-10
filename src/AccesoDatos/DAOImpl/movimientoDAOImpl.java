@@ -30,19 +30,22 @@ public class movimientoDAOImpl implements ImovimientosDAO{
 
     @Override
     public int insertMovimiento(movimientosVO movimiento) throws Exception {
-        String sql = "INSERT INTO movimiento(fecha,valor,detalle,id_cuenta,id_categoria,id_tipo_movimiento) VALUES(?,?)";
+        String sql = "INSERT INTO movimiento(fecha,valor,detalle,id_cuenta,id_categoria,id_tipo_movimiento) VALUES(?,?,?,?,?,?)";
         sqliteHelper sqlite = new sqliteHelper();
         int result = 0;
         cuentasVO cuenta = movimiento.getCuentas();
-        categoriasVO categoria = movimiento.getCategoria();
+        categoriasVO categoria = movimiento.getCategoria(); 
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        java.sql.Date sqlDate = new java.sql.Date(movimiento.getFecha().getTime());
+        System.out.println(sqlDate.toLocalDate());
         try (Connection conn = sqlite.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setDate(1, (java.sql.Date) movimiento.getFecha());
+            pstmt.setDate(1, sqlDate);
             pstmt.setDouble(2, movimiento.getValor());
-            pstmt.setString(2, movimiento.getDetalle());
-            pstmt.setInt(2, cuenta.getIdCuenta());
-            pstmt.setInt(2, categoria.getIdCategoria());
-            pstmt.setInt(2, movimiento.getTipoMovimiento());
+            pstmt.setString(3, movimiento.getDetalle());
+            pstmt.setInt(4, cuenta.getIdCuenta());
+            pstmt.setInt(5, categoria.getIdCategoria());
+            pstmt.setInt(6, movimiento.getTipoMovimiento());
             pstmt.executeUpdate();
             result = 1;
         } catch (SQLException e) {
@@ -74,9 +77,10 @@ public class movimientoDAOImpl implements ImovimientosDAO{
              ResultSet rs    = stmt.executeQuery(sql)){
             
             // loop through the result set
-            while (rs.next()) {                  
+            while (rs.next()) {  
+                System.out.println(rs.getString("fecha"));                
                 Date fecha = format.parse(rs.getString("fecha"));                
-                cuenta = new cuentasVO(rs.getInt("id_cuenta"), rs.getString("nombre_cuenta"), persona);
+                cuenta = new cuentasVO(rs.getInt("id_cuenta"), rs.getString("nombre_cuenta"), persona, 0);
                 categoria = new categoriasVO(rs.getInt("id_categoria"), rs.getString("descripcion"), idtipoMoviento);
                 movement = new movimientosVO(rs.getInt("id_movimiento"), fecha, rs.getDouble("valor")
                            , rs.getString("detalle"), cuenta, categoria, idtipoMoviento);

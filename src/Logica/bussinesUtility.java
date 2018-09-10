@@ -67,4 +67,15 @@ public class bussinesUtility {
        }
         return result;
     }
+    
+     public ArrayList<cuentasVO> getCuentas(){
+        ArrayList<cuentasVO> result = new ArrayList<>();
+         try{
+          cuentasDAOImpl cuentaList = new cuentasDAOImpl();
+          result = cuentaList.getAllCuentas();
+       }catch (Exception e) {
+          System.out.println(e.getMessage()); 
+       }
+        return result;
+    }
 }

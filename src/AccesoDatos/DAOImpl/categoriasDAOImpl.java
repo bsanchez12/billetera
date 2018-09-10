@@ -8,18 +8,11 @@ package AccesoDatos.DAOImpl;
 import AccesoDatos.DAO.IcategoriasDAO;
 import Helpers.sqliteHelper;
 import Logica.VO.categoriasVO;
-import Logica.VO.cuentasVO;
-import Logica.VO.movimientosVO;
-import Logica.VO.personasVO;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  *
