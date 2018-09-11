@@ -23,7 +23,7 @@ public class principlaController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //TO-DO
+        ventana.getModelo().abrirVentanaAgregarIngreso();
     }
     
 }

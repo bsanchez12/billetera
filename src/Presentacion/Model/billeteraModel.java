@@ -65,11 +65,12 @@ public class billeteraModel {
     }
 
      public void iniciar() {
-        //getVentanaPrincipal().setSize(400, 400);
-        //getVentanaPrincipal().setVisible(true);
-        getVentanaIngreso().setSize(400, 400);
-        getVentanaIngreso().setVisible(true);
-        FuncionalidadListarIngresos(1);
+        getVentanaPrincipal().setSize(400, 400);
+        getVentanaPrincipal().setVisible(true);
+        getVentanaPrincipal().cargarSaldos();
+        //getVentanaIngreso().setSize(400, 400);
+        //getVentanaIngreso().setVisible(true);
+        //FuncionalidadListarIngresos(1);
     }
      
     public void FuncionalidadListarIngresos(int idTipoMovimiento){
@@ -159,4 +160,16 @@ public class billeteraModel {
         getVentanaAgregarIngreso().setVisible(false);
     }
                 
+    //Logica pantalla inicial
+    
+    public void funcionalidadCargaTotalCuentas(){
+        
+       ArrayList<cuentasVO> cuentas = getSistema().getCuentas();  
+           for(Iterator<cuentasVO> i = cuentas.iterator(); i.hasNext();){
+               cuentasVO item = i.next();  
+              
+           }
+        
+    }
+    
 }

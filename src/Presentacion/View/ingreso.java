@@ -44,8 +44,10 @@ public class ingreso extends javax.swing.JFrame {
         capturarEventos();
     }
     
+    
     public billeteraModel getModelo() {
         return modelo;
+        
     }
     
     public ingresoController getControl() {
@@ -80,6 +82,11 @@ public class ingreso extends javax.swing.JFrame {
         lstIngresos.getAccessibleContext().setAccessibleName("lstIngresos");
 
         btnagregar.setText("Agregar");
+        btnagregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnagregarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,6 +130,10 @@ public class ingreso extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnagregarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
