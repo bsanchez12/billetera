@@ -5,34 +5,34 @@
  */
 package Presentacion.Controller;
 
-import Presentacion.View.ingreso;
+import Presentacion.View.gasto;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
  *
- * @author Briam
+ * @author Administrador
  */
-public class ingresoController implements ActionListener{
+public class gastoController implements ActionListener{
     
-    private final ingreso ventana;
+    private final gasto ventana;
 
-    public ingresoController(ingreso aThis) {
+    public gastoController(gasto aThis) {
        ventana = aThis;
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e);
+        System.out.println(e);    
         String value = e.getActionCommand();
         if(value == "Agregar"){
-            ventana.getModelo().abrirVentanaAgregarIngreso();
+            ventana.getModelo().abrirVentanaAgregarGasto();
         }else{
-            ventana.getModelo().cerrarVentanaIngresos();
+            ventana.getModelo().cerrarVentanaGastos();
         }
     }
     
     public void selectItem(){
-        ventana.getModelo().selectedMovimiento(1);
+        ventana.getModelo().selectedMovimiento(2);
     }
 }

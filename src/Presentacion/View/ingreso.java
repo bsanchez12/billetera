@@ -70,16 +70,24 @@ public class ingreso extends javax.swing.JFrame {
         lblFechaActual = new javax.swing.JLabel();
         lblError = new javax.swing.JLabel();
         btnagregar = new javax.swing.JButton();
+        btnatras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lblIngresoTitulo.setText("Ingresos");
 
         lstIngresos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lstIngresos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstIngresosValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(lstIngresos);
         lstIngresos.getAccessibleContext().setAccessibleName("lstIngresos");
 
         btnagregar.setText("Agregar");
+
+        btnatras.setText("Atras");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -90,12 +98,14 @@ public class ingreso extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblError)
                     .addComponent(lblFechaActual)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(lblIngresoTitulo)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnagregar))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnatras)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblIngresoTitulo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnagregar))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -114,7 +124,9 @@ public class ingreso extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(lblError)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(btnatras)
+                .addGap(25, 25, 25))
         );
 
         lblIngresoTitulo.getAccessibleContext().setAccessibleName("lblIngresoTitulo");
@@ -124,9 +136,15 @@ public class ingreso extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void lstIngresosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstIngresosValueChanged
+        
+        getControl().selectItem();
+    }//GEN-LAST:event_lstIngresosValueChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnagregar;
+    private javax.swing.JButton btnatras;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblFechaActual;
@@ -135,7 +153,8 @@ public class ingreso extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void capturarEventos() {
-      btnagregar.addActionListener(getControl());
+      btnagregar.addActionListener(getControl());      
+      btnatras.addActionListener(getControl());      
     }
 
 }

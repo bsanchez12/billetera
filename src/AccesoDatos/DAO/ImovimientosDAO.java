@@ -19,5 +19,5 @@ public interface ImovimientosDAO {
     public double getSaldoByIdCuenta (int idCuenta) throws Exception;
     public ArrayList<movimientosVO> getMovimientoByidTipoMov (int idtipoMoviento) throws Exception;
     public ArrayList<movimientosVO> getAllMovimientos () throws Exception;
-   
+    public movimientosVO getMovimientoById (int idMovimiento) throws Exception;
 }

@@ -37,7 +37,7 @@ public class movimientoDAOImpl implements ImovimientosDAO{
         categoriasVO categoria = movimiento.getCategoria(); 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         java.sql.Date sqlDate = new java.sql.Date(movimiento.getFecha().getTime());
-        System.out.println(sqlDate.toLocalDate());
+        System.out.println(sqlDate);
         try (Connection conn = sqlite.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDate(1, sqlDate);
@@ -70,16 +70,14 @@ public class movimientoDAOImpl implements ImovimientosDAO{
         movimientosVO movement = new movimientosVO();
         cuentasVO cuenta = new cuentasVO();
         categoriasVO categoria = new categoriasVO();
-        personasVO persona = new personasVO(1, "John Smith");
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        personasVO persona = new personasVO(1, "John Smith");        
         try (Connection conn = sqlite.connect();
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
             
             // loop through the result set
-            while (rs.next()) {  
-                System.out.println(rs.getString("fecha"));                
-                Date fecha = format.parse(rs.getString("fecha"));                
+            while (rs.next()) {                                
+                Date fecha = rs.getDate("fecha");                
                 cuenta = new cuentasVO(rs.getInt("id_cuenta"), rs.getString("nombre_cuenta"), persona, 0);
                 categoria = new categoriasVO(rs.getInt("id_categoria"), rs.getString("descripcion"), idtipoMoviento);
                 movement = new movimientosVO(rs.getInt("id_movimiento"), fecha, rs.getDouble("valor")
@@ -101,6 +99,36 @@ public class movimientoDAOImpl implements ImovimientosDAO{
     @Override
     public double getSaldoByIdCuenta(int idCuenta) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public movimientosVO getMovimientoById(int idMovimiento) throws Exception {
+        String sql = "SELECT m.id_movimiento, m.valor, m.fecha, m.detalle, cu.id_cuenta, cu.nombre_cuenta ," +
+               " c.id_categoria ,c.descripcion, m.id_tipo_movimiento FROM movimiento m inner join " +
+               "categoria c on m.id_categoria = c.id_categoria " +
+               "inner join cuenta cu on m.id_cuenta = cu.id_cuenta where m.id_movimiento = " + String.valueOf(idMovimiento);
+        sqliteHelper sqlite = new sqliteHelper();
+        movimientosVO result = new movimientosVO();        
+        cuentasVO cuenta = new cuentasVO();
+        categoriasVO categoria = new categoriasVO();
+        personasVO persona = new personasVO(1, "John Smith");        
+        try (Connection conn = sqlite.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+            
+            // loop through the result set
+            while (rs.next()) {   
+                System.out.println(rs.getDate("fecha"));
+                Date fecha = rs.getDate("fecha");                
+                cuenta = new cuentasVO(rs.getInt("id_cuenta"), rs.getString("nombre_cuenta"), persona, 0);
+                categoria = new categoriasVO(rs.getInt("id_categoria"), rs.getString("descripcion"), rs.getInt("id_tipo_movimiento"));
+                result = new movimientosVO(rs.getInt("id_movimiento"), fecha, rs.getDouble("valor")
+                           , rs.getString("detalle"), cuenta, categoria, rs.getInt("id_tipo_movimiento"));                                
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR BD - " + e.getMessage());
+        } 
+        return result; 
     }
     
 }

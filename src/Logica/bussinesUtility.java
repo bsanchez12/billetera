@@ -68,11 +68,22 @@ public class bussinesUtility {
         return result;
     }
     
-     public ArrayList<cuentasVO> getCuentas(){
+    public ArrayList<cuentasVO> getCuentas(){
         ArrayList<cuentasVO> result = new ArrayList<>();
          try{
           cuentasDAOImpl cuentaList = new cuentasDAOImpl();
           result = cuentaList.getAllCuentas();
+       }catch (Exception e) {
+          System.out.println(e.getMessage()); 
+       }
+        return result;
+    }
+    
+    public movimientosVO getMovimientoById(int idMovimiento){
+        movimientosVO result = new movimientosVO();
+         try{
+          movimientoDAOImpl movimiento = new movimientoDAOImpl();
+          result = movimiento.getMovimientoById(idMovimiento);
        }catch (Exception e) {
           System.out.println(e.getMessage()); 
        }
