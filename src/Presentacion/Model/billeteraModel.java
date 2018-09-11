@@ -103,17 +103,22 @@ public class billeteraModel {
         return ventanaDetalleGasto;
     }
 
-     public void iniciar() {
+    //Logica para carga inicial de pantalla
+    public void iniciar() {
         //getVentanaPrincipal().setSize(400, 400);
         //getVentanaPrincipal().setVisible(true);
         //getVentanaIngreso().setSize(400, 400);
         //getVentanaIngreso().setVisible(true);
         //FuncionalidadListarIngresos(1);
-        getVentanaGasto().setSize(400, 400);
-        getVentanaGasto().setVisible(true);
-        FuncionalidadListarGastos(2);
+        getVentanaPrincipal().setSize(400, 400);
+        getVentanaPrincipal().setVisible(true);
+        getVentanaPrincipal().cargarSaldos();
+        //getVentanaGasto().setSize(400, 400);
+        //getVentanaGasto().setVisible(true);
+        //FuncionalidadListarGastos(2);
     }
      
+    //Genera listado de gastos
     public void FuncionalidadListarGastos(int idTipoMovimiento){
         int tipoMovimiento = idTipoMovimiento;
         boolean error = false;
@@ -134,9 +139,10 @@ public class billeteraModel {
         
         if(error){
             getVentanaIngreso().getLblError().setText("Error en la entrada de datos");
-        }
+        }      
     }
      
+    //Genera Listado de ingresos
     public void FuncionalidadListarIngresos(int idTipoMovimiento){
         int tipoMovimiento = idTipoMovimiento;
         boolean error = false;
@@ -160,18 +166,21 @@ public class billeteraModel {
         }
     }
     
+    //Cierra ventana de agregar Ingreso
     public void abrirVentanaAgregarIngreso(){
        getVentanaAgregarIngreso().setSize(400, 400);
        getVentanaAgregarIngreso().setVisible(true);
        FuncionalidadCargarDataInicial(1);
     }
 
+    //Cierra ventana de agregar Gasto
     public void abrirVentanaAgregarGasto(){
        getVentanaAgregarGasto().setSize(400, 400);
        getVentanaAgregarGasto().setVisible(true);
        FuncionalidadCargarDataInicial(2);
     }
     
+    //Carga de data inicial para las dos pantallas ingresos o gastos
     public void FuncionalidadCargarDataInicial(int tipoCategoria){
         boolean error = false;
         try{   
@@ -208,6 +217,7 @@ public class billeteraModel {
         }
     }
     
+    //Insertar ingreso en BD
     public void FuncionalidadAgregarIngreso(){
         double valor = 0;
         String detalle = "";
@@ -242,6 +252,7 @@ public class billeteraModel {
         }
     }
     
+    //Insertar gasto en BD
     public void FuncionalidadAgregarGasto(){
         double valor = 0;
         String detalle = "";
@@ -276,6 +287,7 @@ public class billeteraModel {
         }
     }
     
+    //cerra ventana de agregar ingreso
     public void CerrarVentanaAgregarIngreso(){
         getVentanaAgregarIngreso().setVisible(false);
         FuncionalidadListarIngresos(1);
@@ -339,4 +351,15 @@ public class billeteraModel {
      public void cerrarVentanaGastos(){
         getVentanaGasto().setVisible(false);
     }
+               
+    //Logica pantalla inicial    
+    public void funcionalidadCargaTotalCuentas(){
+        
+       ArrayList<cuentasVO> cuentas = getSistema().getCuentas();  
+           for(Iterator<cuentasVO> i = cuentas.iterator(); i.hasNext();){
+               cuentasVO item = i.next();  
+              
+           }        
+    }
+    
 }

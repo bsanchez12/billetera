@@ -44,8 +44,10 @@ public class ingreso extends javax.swing.JFrame {
         capturarEventos();
     }
     
+    
     public billeteraModel getModelo() {
         return modelo;
+        
     }
     
     public ingresoController getControl() {
@@ -69,8 +71,8 @@ public class ingreso extends javax.swing.JFrame {
         lstIngresos = new javax.swing.JList<>();
         lblFechaActual = new javax.swing.JLabel();
         lblError = new javax.swing.JLabel();
-        btnagregar = new javax.swing.JButton();
         btnatras = new javax.swing.JButton();
+        btnagregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,9 +87,9 @@ public class ingreso extends javax.swing.JFrame {
         jScrollPane1.setViewportView(lstIngresos);
         lstIngresos.getAccessibleContext().setAccessibleName("lstIngresos");
 
-        btnagregar.setText("Agregar");
-
         btnatras.setText("Atras");
+
+        btnagregar.setText("Agregar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,10 +138,12 @@ public class ingreso extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void lstIngresosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstIngresosValueChanged
         
         getControl().selectItem();
     }//GEN-LAST:event_lstIngresosValueChanged
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

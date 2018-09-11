@@ -115,14 +115,14 @@
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="lblError"/>
       </AccessibilityProperties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnagregar">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Agregar"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="btnatras">
       <Properties>
         <Property name="text" type="java.lang.String" value="Atras"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnagregar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Agregar"/>
       </Properties>
     </Component>
   </SubComponents>
