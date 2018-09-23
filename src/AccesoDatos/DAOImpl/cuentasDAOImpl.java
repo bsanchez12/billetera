@@ -61,5 +61,28 @@ public class cuentasDAOImpl implements IcuentasDAO{
     public int deleteCuentas(int idCuenta) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public ArrayList<cuentasVO> getAllCuentasInitial() throws Exception {
+        String sql = "select id_cuenta, nombre_cuenta,0 as saldo from cuenta";            
+        sqliteHelper sqlite = new sqliteHelper();
+        ArrayList<cuentasVO> result = new ArrayList<>();
+        cuentasVO cuenta = new cuentasVO();
+        personasVO persona = new personasVO();
+        try (Connection conn = sqlite.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+            
+            // loop through the result set
+            while (rs.next()) {
+                
+                cuenta = new cuentasVO(rs.getInt("id_cuenta"), rs.getString("nombre_cuenta"),rs.getDouble("saldo"));               
+                result.add(cuenta);
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR BD - " + e.getMessage());
+        } 
+        return result;
+    }
     
 }

@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
  */
 public class detailCuentasController implements ActionListener{
     
-        private final detailCount ventana;
+    private final detailCount ventana;
 
     public detailCuentasController(detailCount aThis) {
        ventana = aThis;
@@ -33,11 +33,9 @@ public class detailCuentasController implements ActionListener{
     }
     
     
-       public void selectItem(){
-           System.out.println("controlador");
-        ventana.getModelo().selectCuenta();
+    public void selectItem(){
+       System.out.println("controlador");
+       ventana.getModelo().selectCuenta();
     }
-
-
     
 }

@@ -28,7 +28,7 @@ public class bussinesUtility {
             cuentasDAOImpl cuentasList = new cuentasDAOImpl();
             cuentas = cuentasList.getAllCuentas();
       }catch (Exception e) {
-            
+         System.out.println(e.getMessage()); 
       }
       return cuentas;
     }
@@ -36,10 +36,11 @@ public class bussinesUtility {
     public ArrayList<resumenCuentasVO> resumenSaldoCuentas (){
         ArrayList<resumenCuentasVO> resumencuentas= new ArrayList();
         
-            try {
+        try {
                 movimientoDAOImpl movimientoList = new movimientoDAOImpl();
                 resumencuentas=movimientoList.getResumenCuentas();
         } catch (Exception e) {
+            System.out.println(e.getMessage()); 
         }
         
         return resumencuentas;
@@ -72,9 +73,22 @@ public class bussinesUtility {
        return result;
     }
  
+    public int insertarCategoria(categoriasVO categoria){
+       int result = 0;
+        
+       try{
+          categoriasDAOImpl categoriaInsert = new categoriasDAOImpl();
+          result = categoriaInsert.insertCategoria(categoria);
+       }catch (Exception e) {
+          System.out.println(e.getMessage()); 
+       }
+       
+       return result;
+    }
+     
     public ArrayList<categoriasVO> getCategoriasByTipo(int tipoCategoria){
-        ArrayList<categoriasVO> result = new ArrayList<>();
-         try{
+      ArrayList<categoriasVO> result = new ArrayList<>();
+       try{
           categoriasDAOImpl categoriaList = new categoriasDAOImpl();
           result = categoriaList.getCategoriaByTipo(tipoCategoria);
        }catch (Exception e) {
@@ -88,6 +102,17 @@ public class bussinesUtility {
          try{
           cuentasDAOImpl cuentaList = new cuentasDAOImpl();
           result = cuentaList.getAllCuentas();
+       }catch (Exception e) {
+          System.out.println(e.getMessage()); 
+       }
+        return result;
+    }
+    
+    public ArrayList<cuentasVO> getCuentasInicial(){
+        ArrayList<cuentasVO> result = new ArrayList<>();
+         try{
+          cuentasDAOImpl cuentaList = new cuentasDAOImpl();
+          result = cuentaList.getAllCuentasInitial();
        }catch (Exception e) {
           System.out.println(e.getMessage()); 
        }
@@ -124,6 +149,7 @@ public class bussinesUtility {
          try {
             detailCount=movimiento.getMovimientoByIdCuenta(idCuenta);
         } catch (Exception e) {
+            System.out.println(e.getMessage()); 
         }
          return detailCount;
     }

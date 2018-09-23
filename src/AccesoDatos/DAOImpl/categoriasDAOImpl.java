@@ -9,6 +9,7 @@ import AccesoDatos.DAO.IcategoriasDAO;
 import Helpers.sqliteHelper;
 import Logica.VO.categoriasVO;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,7 +23,19 @@ public class categoriasDAOImpl implements IcategoriasDAO {
 
     @Override
     public int insertCategoria(categoriasVO categoria) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         String sql = "INSERT INTO categoria(descripcion,id_tipo_categoria) VALUES(?,?)";
+        sqliteHelper sqlite = new sqliteHelper();
+        int result = 0;               
+        try (Connection conn = sqlite.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {           
+            pstmt.setString(1, categoria.getDesCategoria());
+            pstmt.setInt(2, categoria.getTipoCategoria());            
+            pstmt.executeUpdate();
+            result = 1;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
     }
 
     @Override

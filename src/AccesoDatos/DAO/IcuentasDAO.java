@@ -17,6 +17,7 @@ public interface IcuentasDAO {
     public int insertCuentas(cuentasVO cuentas) throws Exception;
     public cuentasVO getCuentas (int idCuenta) throws Exception;
     public ArrayList<cuentasVO> getAllCuentas() throws Exception;
+    public ArrayList<cuentasVO> getAllCuentasInitial() throws Exception;
     public int deleteCuentas(int idCuenta)throws Exception;
     
 }

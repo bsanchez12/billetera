@@ -5,7 +5,7 @@
  */
 package Presentacion.Controller;
 
-import Presentacion.View.addIngreso;
+import Presentacion.View.addCategoria;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,20 +13,20 @@ import java.awt.event.ActionListener;
  *
  * @author Briam
  */
-public class addIngresoController implements ActionListener{
-    private final addIngreso ventana;
-
-    public addIngresoController(addIngreso aThis) {
+public class addCategoriaController implements ActionListener{
+    private final addCategoria ventana;  
+    
+    public addCategoriaController(addCategoria aThis) {
        ventana = aThis;
     }
- 
+
     @Override
-    public void actionPerformed(ActionEvent e) {        
+    public void actionPerformed(ActionEvent e) {
         String value = e.getActionCommand();
-        if(value == "Cancelar"){
-          ventana.getModelo().CerrarVentanaAgregarIngreso();
+        if(value == "Atras"){
+          ventana.getModelo().cerrarVentanaAgregarCategorias();   
         }else{
-          ventana.getModelo().FuncionalidadAgregarIngreso();   
-        }        
+          ventana.getModelo().agregarCategoria();
+        }   
     }
 }

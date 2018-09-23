@@ -11,15 +11,19 @@ import Logica.VO.detalleCuentaVO;
 import Logica.VO.movimientosVO;
 import Logica.VO.resumenCuentasVO;
 import Logica.bussinesUtility;
+import Presentacion.View.addCategoria;
 import Presentacion.View.addGasto;
 import Presentacion.View.addIngreso;
 import Presentacion.View.detailCount;
 import Presentacion.View.addCuentas;
+import Presentacion.View.confCategorias;
 import Presentacion.View.detailGasto;
 import Presentacion.View.detailIngreso;
 import Presentacion.View.gasto;
 import Presentacion.View.ingreso;
+import Presentacion.View.listCategorias;
 import Presentacion.View.principal;
+import Presentacion.View.reportes;
 import Presentacion.View.resumenCuenta;
 import Presentacion.View.traslados;
 import java.text.DateFormat;
@@ -58,6 +62,47 @@ public class billeteraModel {
     private resumenCuenta ventanaResumenCuenta;
     
     private traslados ventanaTraslados;
+    
+    private confCategorias ventanaConfiguracion;
+    
+    private listCategorias ventanaListaConfiguracion;
+    
+    private addCategoria ventanaAgregarConfiguracion;
+    
+    private reportes ventanaReportes;
+    
+    public reportes getVentanaReportes() {
+        if(ventanaReportes==null)
+        {
+            ventanaReportes= new reportes(this);
+        }
+        return ventanaReportes;
+    }
+    
+    
+    public addCategoria getventanaAgregarConfiguracion() {
+        if(ventanaAgregarConfiguracion==null)
+        {
+            ventanaAgregarConfiguracion= new addCategoria(this);
+        }
+        return ventanaAgregarConfiguracion;
+    }
+    
+    public listCategorias getventanaListaConfiguracion() {
+        if(ventanaListaConfiguracion==null)
+        {
+            ventanaListaConfiguracion= new listCategorias(this);
+        }
+        return ventanaListaConfiguracion;
+    }
+    
+    public confCategorias getVentanaConfiguracion() {
+        if(ventanaConfiguracion==null)
+        {
+            ventanaConfiguracion= new confCategorias(this);
+        }
+        return ventanaConfiguracion;
+    }
 
     public traslados getVentanaTraslados() {
         if(ventanaTraslados==null)
@@ -148,9 +193,6 @@ public class billeteraModel {
        getVentanaPrincipal().setSize(400, 400);
        getVentanaPrincipal().setVisible(true);
        funcionalidadCargaTotalCuentas();
-        //getVentanaIngreso().setSize(400, 400);
-        //getVentanaIngreso().setVisible(true);
-        //FuncionalidadListarIngresos(1);
     }
      
     //Genera listado de gastos
@@ -234,10 +276,11 @@ public class billeteraModel {
            Date fecha = new Date();
            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
            //cargue de informacion de cuentas
-           ArrayList<cuentasVO> cuentas = getSistema().getCuentas();  
+           ArrayList<cuentasVO> cuentas = getSistema().getCuentasInicial();  
            DefaultComboBoxModel listModelCuenta = new DefaultComboBoxModel ();                     
-           for(Iterator<cuentasVO> i = cuentas.iterator(); i.hasNext();){
+           for(Iterator<cuentasVO> i = cuentas.iterator(); i.hasNext();){               
                cuentasVO item = i.next();  
+               System.out.println(String.valueOf(item.getIdCuenta()));
                listModelCuenta.addElement(String.valueOf(item.getIdCuenta()) + " - " + item.getNombreCuenta());               
            }
                      
@@ -381,18 +424,15 @@ public class billeteraModel {
     } 
     
     public void selectCuenta()
-    {
-         
-        System.out.println("antes");
-         int idMovimiento = Integer.parseInt(getVentanaDatelleCuenta().getLstCuentas().getSelectedValue().split("-")[0].trim()); 
+    {                 
+        int idMovimiento = Integer.parseInt(getVentanaDatelleCuenta().getLstCuentas().getSelectedValue().split("-")[0].trim()); 
         System.out.println(getVentanaDatelleCuenta().getLstCuentas().getSelectedValue().split("-")[0].trim());
-         ArrayList<detalleCuentaVO> detalleCuenta=getSistema().getDetailCount(idMovimiento);
-         DefaultListModel listModel = new DefaultListModel();
-         detalleCuentaVO detalle=new detalleCuentaVO();
+        ArrayList<detalleCuentaVO> detalleCuenta=getSistema().getDetailCount(idMovimiento);
+        DefaultListModel listModel = new DefaultListModel();
+        detalleCuentaVO detalle=new detalleCuentaVO();
         for(Iterator<detalleCuentaVO> i =detalleCuenta.iterator();i.hasNext(); )
         {
-            detalle  = i.next();
-            
+            detalle  = i.next();            
             listModel.addElement(detalle.getDetalle() + "  "+detalle.getValor().toString() );
         }
       
@@ -444,15 +484,15 @@ public class billeteraModel {
     //Logica pantalla inicial    
     public void funcionalidadCargaTotalCuentas(){
         //resumenSaldoCuentas
-       ArrayList<resumenCuentasVO> resumenCuentas = getSistema().resumenSaldoCuentas(); 
-       DefaultListModel listModel = new DefaultListModel();
-       resumenCuentasVO saldoCuentas=new resumenCuentasVO();
-       Double ingresos,gastos,totalCuentas;
-       ingresos=0.0;
-       gastos=0.0;
+      ArrayList<resumenCuentasVO> resumenCuentas = getSistema().resumenSaldoCuentas(); 
+      DefaultListModel listModel = new DefaultListModel();
+      resumenCuentasVO saldoCuentas=new resumenCuentasVO();
+      Double ingresos,gastos,totalCuentas;
+      ingresos=0.0;
+      gastos=0.0;
       totalCuentas=0.0;
       
-       for(Iterator<resumenCuentasVO> i = resumenCuentas.iterator(); i.hasNext();){
+      for(Iterator<resumenCuentasVO> i = resumenCuentas.iterator(); i.hasNext();){
                resumenCuentasVO item = i.next();
                if(1==item.getTipoMovimiento())
                {
@@ -462,7 +502,7 @@ public class billeteraModel {
                    gastos=item.getSaldoMovimiento();
                }
                //listModel.addElement(item.getDesMovimiento() + "  $" + String.valueOf(item.getSaldoMovimiento()));
-         }
+       }
          totalCuentas=ingresos-gastos;
         
 
@@ -487,17 +527,102 @@ public class billeteraModel {
         
     }
     
-    public void abriVentanaCuentas(){
-    
+    public void abriVentanaCuentas(){    
         getVentanaDatelleCuenta().setVisible(true);
         getVentanaDatelleCuenta().setSize(400, 400);
-        funcionalidadCargarCuentas();
-        
+        funcionalidadCargarCuentas();        
     }
 
     public void abrirVentanaTraslados() {
         getVentanaTraslados().setSize(400, 400);
         getVentanaTraslados().setVisible(true);
+    }
+
+    public void abrirVentanaConfiguracion() {
+        getVentanaConfiguracion().setSize(400, 400);
+        getVentanaConfiguracion().setVisible(true);
+    }
+
+    public void cerrarVentanaConfiguracion() {
+        getVentanaConfiguracion().setVisible(false);
+    }
+
+    public void selectConfiguracion() {
+        int idTipoConfiuracion = Integer.parseInt(getVentanaConfiguracion().getLstConfiguracion().getSelectedValue().split("-")[0].trim());                   
+        
+        cargarConfiguracion(idTipoConfiuracion);
+                
+        getventanaListaConfiguracion().setSize(400, 400);
+        getventanaListaConfiguracion().setVisible(true);
+    }
+    
+    public void cargarConfiguracion(int tipoConfiguracion){        
+        DefaultComboBoxModel listModelCategoria = new DefaultComboBoxModel ();
+        
+        if(tipoConfiguracion == 1){
+            getventanaListaConfiguracion().getLblTituloConfiguracion().setText("Categorias Ingresos:");
+        }else{
+            getventanaListaConfiguracion().getLblTituloConfiguracion().setText("Categorias Gastos:");
+        }
+        
+        ArrayList<categoriasVO> listCategorias = getSistema().getCategoriasByTipo(tipoConfiguracion);        
+        for(Iterator<categoriasVO> i = listCategorias.iterator(); i.hasNext();){
+            categoriasVO item = i.next();
+            listModelCategoria.addElement(String.valueOf(item.getIdCategoria()) + " - " + item.getDesCategoria());
+        }        
+        
+        getventanaListaConfiguracion().getLstCategorias().setModel(listModelCategoria);
+    }
+
+    public void cerrarVentanaListaCategorias() {
+        getventanaListaConfiguracion().setVisible(false);
+    }
+
+    public void cerrarVentanaAgregarCategorias() {        
+        getventanaAgregarConfiguracion().setVisible(false);
+    }
+
+    public void abrirVentanaAgregarCategorias() {
+        
+        if(getventanaListaConfiguracion().getLblTituloConfiguracion().getText() == "Categorias Ingresos:")
+        {
+           getventanaAgregarConfiguracion().getLblCategoria().setText("Ingresos");
+        }else{
+           getventanaAgregarConfiguracion().getLblCategoria().setText("Gastos"); 
+        }
+        
+        getventanaAgregarConfiguracion().setSize(400,400);
+        getventanaAgregarConfiguracion().setVisible(true);
+    }
+
+    public void agregarCategoria() {
+        categoriasVO categoria = new categoriasVO();
+        int tipoCategoria = 0;
+        categoria.setDesCategoria(getventanaAgregarConfiguracion().getTxtCategoria().getText());
+        if(getventanaAgregarConfiguracion().getLblCategoria().getText() == "Ingresos")
+        {
+          tipoCategoria = 1;
+        }else{
+          tipoCategoria = 2;
+        }
+        categoria.setTipoCategoria(tipoCategoria);
+        getSistema().insertarCategoria(categoria);
+        cargarConfiguracion(tipoCategoria);
+        getventanaAgregarConfiguracion().getTxtCategoria().setText("");
+        getventanaAgregarConfiguracion().setVisible(false);
+    }
+
+    public void abrirVentanaReportes() {
+        getVentanaReportes().setSize(400,400);
+        getVentanaReportes().setVisible(true);
+    }
+
+    public void cerrarVentanaReportes() {
+        getVentanaReportes().setVisible(false);
+    }
+
+    public void abrirVentanaDetalleReporte() {
+        System.out.println(getVentanaReportes().getLstReporte().getSelectedValue().split("-")[0].trim());
     }
     
 

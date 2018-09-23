@@ -54,4 +54,12 @@ public class principlaController implements ActionListener {
     {
         ventana.getModelo().abrirVentanaTraslados();
     }
+
+    public void getConfiguracion() {
+        ventana.getModelo().abrirVentanaConfiguracion();
+    }
+
+    public void getReportes() {
+        ventana.getModelo().abrirVentanaReportes();
+    }
 }
