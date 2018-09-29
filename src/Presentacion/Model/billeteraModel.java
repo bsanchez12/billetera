@@ -19,6 +19,7 @@ import Presentacion.View.addCuentas;
 import Presentacion.View.confCategorias;
 import Presentacion.View.detailGasto;
 import Presentacion.View.detailIngreso;
+import Presentacion.View.diagramaReportes;
 import Presentacion.View.gasto;
 import Presentacion.View.ingreso;
 import Presentacion.View.listCategorias;
@@ -26,12 +27,18 @@ import Presentacion.View.principal;
 import Presentacion.View.reportes;
 import Presentacion.View.resumenCuenta;
 import Presentacion.View.traslados;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 
@@ -40,6 +47,37 @@ import javax.swing.DefaultListModel;
  * @author Estudiantes
  */
 public class billeteraModel {
+    
+    //Variables para graficos
+    private double topeMaximo;
+    private double topeMedio;
+    private Map <String,String> listaValores; 
+
+    public double getTopeMaximo() {
+        return topeMaximo;
+    }
+
+    public void setTopeMaximo(double topeMaximo) {
+        this.topeMaximo = topeMaximo;
+    }
+
+    public double getTopeMedio() {
+        return topeMedio;
+    }
+
+    public void setTopeMedio(double topeMedio) {
+        this.topeMedio = topeMedio;
+    }
+
+    public Map<String, String> getListaValores() {
+        return listaValores;
+    }
+
+    public void setListaValores(Map<String, String> listaValores) {
+        this.listaValores = listaValores;
+    }
+    
+    
     
     private bussinesUtility sistema;
     
@@ -70,6 +108,22 @@ public class billeteraModel {
     private addCategoria ventanaAgregarConfiguracion;
     
     private reportes ventanaReportes;
+    
+    private diagramaReportes ventanaDiagramaReportes;
+    
+    private BufferedImage dobleBuffer;
+    
+    public billeteraModel(){
+        dobleBuffer = new BufferedImage(getVentanaDiagramaReportes().getCvnReporte().getWidth(), getVentanaDiagramaReportes().getCvnReporte().getHeight(), BufferedImage.TYPE_INT_ARGB);
+    }
+        
+    public diagramaReportes getVentanaDiagramaReportes() {
+        if(ventanaDiagramaReportes==null)
+        {
+            ventanaDiagramaReportes= new diagramaReportes(this);
+        }
+        return ventanaDiagramaReportes;
+    }
     
     public reportes getVentanaReportes() {
         if(ventanaReportes==null)
@@ -622,8 +676,132 @@ public class billeteraModel {
     }
 
     public void abrirVentanaDetalleReporte() {
-        System.out.println(getVentanaReportes().getLstReporte().getSelectedValue().split("-")[0].trim());
+        int tiporeporte = Integer.parseInt(getVentanaReportes().getLstReporte().getSelectedValue().split("-")[0].trim());
+        getVentanaDiagramaReportes().setSize(600,600);
+        getVentanaDiagramaReportes().setVisible(true);
+        verReporte(tiporeporte);
+    }
+
+    public void verReporte(int tipoReporte) {        
+       Canvas lienzo = getVentanaDiagramaReportes().getCvnReporte();
+       Graphics lapiz = dobleBuffer.getGraphics();
+       int x=0;
+       int y=0;
+       int z=0;
+       int a=0;
+        
+  
+        
+        lapiz.setColor(Color.GRAY);
+        lapiz.fillRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
+        //Lineas base
+        lapiz.setColor(Color.BLUE);
+        lapiz.fillRect(20, 40, 2, 330);
+       // lapiz.fillRect(20, 370, 230, 2);
+        //Linea mitad
+        lapiz.fillRect(20, 205, 350, 1);
+        //Leyendas Valores
+   
+        
+        
+        if(tipoReporte == 1){
+            reporteIngresoGastos();
+            
+             lapiz.drawString(Double.toString(topeMaximo), 22, 40);
+             lapiz.drawString(Double.toString(topeMedio), 22, 204);
+             lapiz.drawString("0", 22, 369);
+             int color=1000; 
+              int lineaInferiro=230;
+             
+             
+             if(topeMaximo>0)
+               {
+                   topeMedio=topeMaximo/2;
+               }
+            
+            Map <String,String> listaIngresosEgrespos=getListaValores(); 
+                
+             if(listaIngresosEgrespos!=null)
+             {
+                 for (Map.Entry<String , String> entry : listaIngresosEgrespos.entrySet()) { 
+                    
+                    
+                      
+                       a=((Integer.parseInt(entry.getValue())*330)/(int)topeMaximo);
+                       y=370-a;
+                       x=x+60;
+                       lapiz.setColor(Color.getColor("luis",color));
+                      // lapiz.fillRect(60, 320, 70, 50);
+                       lapiz.fillRect(x, y, 70, a);
+                       
+                       lapiz.drawString(entry.getKey(), x+10 , 390);
+                       x=x+70;
+                       color=color+5000;
+                     
+                       lapiz.setColor(Color.RED);
+                       lapiz.fillRect(20, 370, lineaInferiro, 2);
+                       lineaInferiro=lineaInferiro+60;
+                        
+                 
+                 }
+             }
+        }
+        
+        
+        
+        //barra 1
+       //  lapiz.setColor(Color.GREEN);
+        // lapiz.fillRect(60, 320, 70, 50);
+        // lapiz.drawString("Ingresos", 70, 390);
+        // barra 2 
+       //  lapiz.setColor(Color.RED);
+        // lapiz.fillRect(230, 320, 70, 50);
+        // lapiz.drawString("Gastos", 240, 390);
+   
+        Graphics pincel = lienzo.getGraphics();
+        pincel.drawImage(dobleBuffer, 0, 0, lienzo);
     }
     
+    public void reporteIngresoGastos()
+    {
+         ArrayList<resumenCuentasVO> resumenCuentas = getSistema().resumenSaldoCuentas(); 
+      DefaultListModel listModel = new DefaultListModel();
+      resumenCuentasVO saldoCuentas=new resumenCuentasVO();
+      Double ingresos,gastos,totalCuentas;
+      ingresos=0.0;
+      gastos=0.0;
+      totalCuentas=0.0;
+      
+      for(Iterator<resumenCuentasVO> i = resumenCuentas.iterator(); i.hasNext();){
+               resumenCuentasVO item = i.next();
+               if(1==item.getTipoMovimiento())
+               {
+                    ingresos=item.getSaldoMovimiento();
+               }else if(2==item.getTipoMovimiento())
+               {
+                   gastos=item.getSaldoMovimiento();
+               }
+              
+       }
+      
+      listaValores=new HashMap<String,String>();
+      
+      if(ingresos>gastos)
+      {
+           topeMaximo=ingresos;
+      }else
+      {
+          topeMaximo=gastos;
+      }
+      
+     
+      listaValores.put("Ingresos", Integer.toString(ingresos.intValue()));
+      listaValores.put("Gastos", Integer.toString(gastos.intValue()));
+      listaValores.put("pruebas", Integer.toString(300));        
+    }
+
+    public void cerrarVentanaDiagramaReporte() {
+        getVentanaDiagramaReportes().setVisible(false);
+    }
 
 }

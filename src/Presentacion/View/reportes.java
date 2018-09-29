@@ -63,7 +63,7 @@ public class reportes extends javax.swing.JFrame {
         lbltiporeporte.setText("Seleccione el tipo de reporte:");
 
         lstReporte.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "1-Gestos Mensual", "2-Ingresos Mensual" };
+            String[] strings = { "1-Gastos vs Ingresos Mensual", "2-Categorias Mensual" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
