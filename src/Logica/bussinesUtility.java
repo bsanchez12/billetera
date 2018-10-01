@@ -155,12 +155,12 @@ public class bussinesUtility {
          return detailCount;
     }
     
-    public ArrayList<reporteVO> getReporteCategoria()
+    public ArrayList<reporteVO> getReporteCategoria(int idTipoMovimiento)
     {
         ArrayList<reporteVO> reporteCategoria = new ArrayList();
         movimientoDAOImpl movimiento = new movimientoDAOImpl();
         try {
-            reporteCategoria = movimiento.getReporteCategoria();
+            reporteCategoria = movimiento.getReporteCategoria(idTipoMovimiento);
         } catch (Exception e) {
             System.out.println(e.getMessage()); 
         }

@@ -23,5 +23,5 @@ public interface ImovimientosDAO {
     public ArrayList<resumenCuentasVO> getResumenCuentas () throws Exception;
     public ArrayList<movimientosVO> getAllMovimientos () throws Exception;
     public movimientosVO getMovimientoById (int idMovimiento) throws Exception;
-    public ArrayList<reporteVO> getReporteCategoria () throws Exception;
+    public ArrayList<reporteVO> getReporteCategoria (int idTipoMovimiento) throws Exception;
 }

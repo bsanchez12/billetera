@@ -193,9 +193,9 @@ public class movimientoDAOImpl implements ImovimientosDAO{
     }
 
     @Override
-    public ArrayList<reporteVO> getReporteCategoria() throws Exception {
+    public ArrayList<reporteVO> getReporteCategoria(int idTipoMovimiento) throws Exception {
         String sql = "select c.descripcion,sum(m.valor) as valor from movimiento m inner join categoria c" +
-                     " on m.id_categoria = c.id_categoria group by c.descripcion"; 
+                     " on m.id_categoria = c.id_categoria where m.id_tipo_movimiento = " + String.valueOf(idTipoMovimiento) + " group by c.descripcion"; 
         System.out.println(sql);  
         sqliteHelper sqlite = new sqliteHelper();
         ArrayList<reporteVO> result = new ArrayList();

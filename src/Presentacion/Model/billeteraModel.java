@@ -703,7 +703,9 @@ public class billeteraModel {
         if(tipoReporte == 1){
             reporteIngresoGastos();                                          
         }else if(tipoReporte == 2){
-            reporteCategoria();
+            reporteCategoria(1);
+        }else if(tipoReporte == 3){
+            reporteCategoria(2);
         }  
         
         lapiz.drawString(Double.toString(topeMaximo), 22, 40);
@@ -776,9 +778,9 @@ public class billeteraModel {
       listaValores.put("Gastos-" + Integer.toString(gastos.intValue()) , Integer.toString(gastos.intValue()));            
     }
     
-    public void reporteCategoria()
+    public void reporteCategoria(int idTipoMovimiento)
     {              
-        ArrayList<reporteVO> reporteCategoria = getSistema().getReporteCategoria(); 
+        ArrayList<reporteVO> reporteCategoria = getSistema().getReporteCategoria(idTipoMovimiento); 
         
         listaValores = new HashMap<String,String>();
         Double numeromayor = reporteCategoria.get(0).getSaldoLeyenda();
