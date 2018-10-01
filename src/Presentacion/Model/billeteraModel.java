@@ -9,6 +9,7 @@ import Logica.VO.categoriasVO;
 import Logica.VO.cuentasVO;
 import Logica.VO.detalleCuentaVO;
 import Logica.VO.movimientosVO;
+import Logica.VO.reporteVO;
 import Logica.VO.resumenCuentasVO;
 import Logica.bussinesUtility;
 import Presentacion.View.addCategoria;
@@ -76,9 +77,7 @@ public class billeteraModel {
     public void setListaValores(Map<String, String> listaValores) {
         this.listaValores = listaValores;
     }
-    
-    
-    
+            
     private bussinesUtility sistema;
     
     private principal ventanaPrincipal;
@@ -677,86 +676,66 @@ public class billeteraModel {
 
     public void abrirVentanaDetalleReporte() {
         int tiporeporte = Integer.parseInt(getVentanaReportes().getLstReporte().getSelectedValue().split("-")[0].trim());
-        getVentanaDiagramaReportes().setSize(600,600);
+        getVentanaDiagramaReportes().setSize(700,700);
         getVentanaDiagramaReportes().setVisible(true);
         verReporte(tiporeporte);
     }
 
     public void verReporte(int tipoReporte) {        
-       Canvas lienzo = getVentanaDiagramaReportes().getCvnReporte();
-       Graphics lapiz = dobleBuffer.getGraphics();
-       int x=0;
-       int y=0;
-       int z=0;
-       int a=0;
-        
-  
-        
+        Canvas lienzo = getVentanaDiagramaReportes().getCvnReporte();
+        Graphics lapiz = dobleBuffer.getGraphics();
+        int x = 0;
+        int y = 0;
+        int z = 0;
+        int a = 0;
+        int color = 1000; 
+        int lineaInferiro = 230;
+
         lapiz.setColor(Color.GRAY);
         lapiz.fillRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
         //Lineas base
         lapiz.setColor(Color.BLUE);
-        lapiz.fillRect(20, 40, 2, 330);
-       // lapiz.fillRect(20, 370, 230, 2);
+        lapiz.fillRect(20, 40, 2, 330);       
         //Linea mitad
         lapiz.fillRect(20, 205, 350, 1);
-        //Leyendas Valores
-   
-        
+        //Leyendas Valores           
         
         if(tipoReporte == 1){
-            reporteIngresoGastos();
-            
-             lapiz.drawString(Double.toString(topeMaximo), 22, 40);
-             lapiz.drawString(Double.toString(topeMedio), 22, 204);
-             lapiz.drawString("0", 22, 369);
-             int color=1000; 
-              int lineaInferiro=230;
-             
-             
-             if(topeMaximo>0)
-               {
-                   topeMedio=topeMaximo/2;
-               }
-            
-            Map <String,String> listaIngresosEgrespos=getListaValores(); 
-                
-             if(listaIngresosEgrespos!=null)
-             {
-                 for (Map.Entry<String , String> entry : listaIngresosEgrespos.entrySet()) { 
-                    
-                    
-                      
-                       a=((Integer.parseInt(entry.getValue())*330)/(int)topeMaximo);
-                       y=370-a;
-                       x=x+60;
-                       lapiz.setColor(Color.getColor("luis",color));
-                      // lapiz.fillRect(60, 320, 70, 50);
-                       lapiz.fillRect(x, y, 70, a);
-                       
-                       lapiz.drawString(entry.getKey(), x+10 , 390);
-                       x=x+70;
-                       color=color+5000;
-                     
-                       lapiz.setColor(Color.RED);
-                       lapiz.fillRect(20, 370, lineaInferiro, 2);
-                       lineaInferiro=lineaInferiro+60;
-                        
-                 
-                 }
-             }
+            reporteIngresoGastos();                                          
+        }else if(tipoReporte == 2){
+            reporteCategoria();
+        }  
+        
+        lapiz.drawString(Double.toString(topeMaximo), 22, 40);
+        lapiz.drawString(Double.toString(topeMedio), 22, 204);
+        lapiz.drawString("0", 22, 369);         
+
+        if(topeMaximo > 0)
+        {
+            topeMedio = topeMaximo/2;
+        } 
+        
+        Map <String,String> reporte = getListaValores(); 
+
+        if(reporte!=null)
+        {
+             for (Map.Entry<String , String> entry : reporte.entrySet()) { 
+                a=((Integer.parseInt(entry.getValue())*330)/(int)topeMaximo);
+                y=370-a;
+                x=x+50;
+                lapiz.setColor(Color.getColor("default",color));                      
+                lapiz.fillRect(x, y, 70, a);
+                String[] arrayLeyenda = entry.getKey().split("-");                
+                lapiz.drawString(arrayLeyenda[0], x+10 , 390);
+                lapiz.drawString(arrayLeyenda[1], x+10 , 410);
+                x=x+50;
+                color=color+5000;
+
+                lapiz.setColor(Color.RED);
+                lapiz.fillRect(20, 370, lineaInferiro, 2);
+                lineaInferiro=lineaInferiro+60;
+            }
         }
-        
-        
-        
-        //barra 1
-       //  lapiz.setColor(Color.GREEN);
-        // lapiz.fillRect(60, 320, 70, 50);
-        // lapiz.drawString("Ingresos", 70, 390);
-        // barra 2 
-       //  lapiz.setColor(Color.RED);
-        // lapiz.fillRect(230, 320, 70, 50);
-        // lapiz.drawString("Gastos", 240, 390);
    
         Graphics pincel = lienzo.getGraphics();
         pincel.drawImage(dobleBuffer, 0, 0, lienzo);
@@ -764,7 +743,7 @@ public class billeteraModel {
     
     public void reporteIngresoGastos()
     {
-         ArrayList<resumenCuentasVO> resumenCuentas = getSistema().resumenSaldoCuentas(); 
+      ArrayList<resumenCuentasVO> resumenCuentas = getSistema().resumenSaldoCuentas(); 
       DefaultListModel listModel = new DefaultListModel();
       resumenCuentasVO saldoCuentas=new resumenCuentasVO();
       Double ingresos,gastos,totalCuentas;
@@ -773,35 +752,48 @@ public class billeteraModel {
       totalCuentas=0.0;
       
       for(Iterator<resumenCuentasVO> i = resumenCuentas.iterator(); i.hasNext();){
-               resumenCuentasVO item = i.next();
-               if(1==item.getTipoMovimiento())
-               {
-                    ingresos=item.getSaldoMovimiento();
-               }else if(2==item.getTipoMovimiento())
-               {
-                   gastos=item.getSaldoMovimiento();
-               }
-              
+        resumenCuentasVO item = i.next();
+        if(1==item.getTipoMovimiento())
+        {
+             ingresos=item.getSaldoMovimiento();
+        }else if(2==item.getTipoMovimiento())
+        {
+            gastos=item.getSaldoMovimiento();
+        }              
        }
       
       listaValores=new HashMap<String,String>();
       
       if(ingresos>gastos)
       {
-           topeMaximo=ingresos;
+        topeMaximo = ingresos;
       }else
       {
-          topeMaximo=gastos;
+        topeMaximo = gastos;
       }
       
-     
-      listaValores.put("Ingresos", Integer.toString(ingresos.intValue()));
-      listaValores.put("Gastos", Integer.toString(gastos.intValue()));
-      listaValores.put("pruebas", Integer.toString(300));        
+      listaValores.put("Ingresos-" + Integer.toString(ingresos.intValue()), Integer.toString(ingresos.intValue()));
+      listaValores.put("Gastos-" + Integer.toString(gastos.intValue()) , Integer.toString(gastos.intValue()));            
+    }
+    
+    public void reporteCategoria()
+    {              
+        ArrayList<reporteVO> reporteCategoria = getSistema().getReporteCategoria(); 
+        
+        listaValores = new HashMap<String,String>();
+        Double numeromayor = reporteCategoria.get(0).getSaldoLeyenda();
+        for(Iterator<reporteVO> i = reporteCategoria.iterator(); i.hasNext();){
+            reporteVO item = i.next();
+            if(item.getSaldoLeyenda() > numeromayor)
+            {
+               numeromayor = item.getSaldoLeyenda();
+            }       
+            listaValores.put(item.getLeyenda() + "-" + Integer.toString(item.getSaldoLeyenda().intValue()), Integer.toString(item.getSaldoLeyenda().intValue()));
+        }
+        topeMaximo = numeromayor;       
     }
 
     public void cerrarVentanaDiagramaReporte() {
         getVentanaDiagramaReportes().setVisible(false);
     }
-
 }

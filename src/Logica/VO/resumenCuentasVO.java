@@ -22,10 +22,7 @@ public class resumenCuentasVO {
         this.tipoMovimiento = tipoMovimiento;
         this.desMovimiento = desMovimiento;
         this.saldoMovimiento = saldoMovimiento;
-    }
-
-    
-    
+    }  
     
     public int getTipoMovimiento() {
         return tipoMovimiento;

@@ -13,6 +13,7 @@ import Logica.VO.categoriasVO;
 import Logica.VO.cuentasVO;
 import Logica.VO.detalleCuentaVO;
 import Logica.VO.movimientosVO;
+import Logica.VO.reporteVO;
 import Logica.VO.resumenCuentasVO;
 import java.util.ArrayList;
 
@@ -152,5 +153,18 @@ public class bussinesUtility {
             System.out.println(e.getMessage()); 
         }
          return detailCount;
+    }
+    
+    public ArrayList<reporteVO> getReporteCategoria()
+    {
+        ArrayList<reporteVO> reporteCategoria = new ArrayList();
+        movimientoDAOImpl movimiento = new movimientoDAOImpl();
+        try {
+            reporteCategoria = movimiento.getReporteCategoria();
+        } catch (Exception e) {
+            System.out.println(e.getMessage()); 
+        }
+        
+        return reporteCategoria;      
     }
 }

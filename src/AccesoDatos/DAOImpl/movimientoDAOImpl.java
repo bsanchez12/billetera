@@ -12,6 +12,7 @@ import Logica.VO.cuentasVO;
 import Logica.VO.detalleCuentaVO;
 import Logica.VO.movimientosVO;
 import Logica.VO.personasVO;
+import Logica.VO.reporteVO;
 import Logica.VO.resumenCuentasVO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -148,11 +149,9 @@ public class movimientoDAOImpl implements ImovimientosDAO{
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(consulta);
              
-             while (rs.next()) {  
-              
+             while (rs.next()) {             
                 resultVO=new resumenCuentasVO(rs.getInt("id_tipo_movimiento"),rs.getString("detalle"),rs.getDouble("Ingresos"));
                 resumenCuentas.add(resultVO);
-
               }
         } catch (SQLException e) {
              System.out.println("ERROR BD - " + e.getMessage());    
@@ -192,5 +191,30 @@ public class movimientoDAOImpl implements ImovimientosDAO{
         } 
         return result; 
     }
-    
+
+    @Override
+    public ArrayList<reporteVO> getReporteCategoria() throws Exception {
+        String sql = "select c.descripcion,sum(m.valor) as valor from movimiento m inner join categoria c" +
+                     " on m.id_categoria = c.id_categoria group by c.descripcion"; 
+        System.out.println(sql);  
+        sqliteHelper sqlite = new sqliteHelper();
+        ArrayList<reporteVO> result = new ArrayList();
+        reporteVO reporte = new reporteVO();
+        
+        try (Connection conn = sqlite.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))
+        {            
+            // loop through the result set
+            while (rs.next()) {                              
+                reporte = new reporteVO(rs.getString("descripcion"), rs.getDouble("valor"));                
+                result.add(reporte);
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR BD - " + e.getMessage());
+        } 
+        
+        return result;
+    }
+      
 }
